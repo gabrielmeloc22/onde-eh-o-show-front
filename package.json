@@ -1,0 +1,46 @@
+{
+  "name": "onde-eh-o-show",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@radix-ui/colors": "^0.1.8",
+    "@radix-ui/react-icons": "^1.1.1",
+    "@radix-ui/react-navigation-menu": "^1.0.0",
+    "@stitches/react": "^1.2.8",
+    "axios": "^0.27.2",
+    "framer-motion": "^7.2.0",
+    "graphql": "^16.6.0",
+    "nanoid": "^4.0.0",
+    "next": "12.2.5",
+    "next-themes": "^0.2.0",
+    "nookies": "^2.5.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.4.0",
+    "simple-crypto-js": "^3.0.1",
+    "stitches-normalize-css": "^1.2.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.4.0",
+    "@types/cookie": "^0.5.1",
+    "@types/cookie-signature": "^1.0.4",
+    "@types/node": "18.7.3",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.22.0",
+    "eslint-config-next": "12.2.5",
+    "leite": "^0.2.0",
+    "msw": "^0.44.2",
+    "typescript": "4.7.4"
+  },
+  "msw": {
+    "workerDirectory": "public"
+  }
+}
