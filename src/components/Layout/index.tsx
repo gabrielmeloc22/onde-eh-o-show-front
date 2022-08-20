@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { Footer } from "../Footer";
 import { Header } from "../Header";
+import { NavigationMenu } from "../NavigationMenu";
 import { Box } from "../Primitives";
 
 interface LayoutProps {
@@ -8,6 +10,8 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const router = useRouter();
+
   return (
     <Box
       css={{
@@ -28,7 +32,7 @@ export function Layout({ children }: LayoutProps) {
           flexDir: "column",
         }}
       >
-        {/* <NavigationMenu /> */}
+        {router.asPath !== "/" && <NavigationMenu />}
         {children}
       </Box>
       <Footer />

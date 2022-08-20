@@ -1,8 +1,10 @@
 import Head from "next/head";
-import { GetServerSideProps, NextPage } from "next/types";
+import { GetServerSideProps } from "next/types";
 import { ArtistCard } from "../../components/ArtistCard";
+import { Layout } from "../../components/Layout";
 import { Box, Text } from "../../components/Primitives";
 import { spotifyApi } from "../../services/SpotifyAPI";
+import { NextPageWithLayout } from "../_app";
 
 export type Artist = {
   name: string;
@@ -19,7 +21,7 @@ interface TopArtistsProps {
   topArtists: Artist[];
 }
 
-const TopArtists: NextPage<TopArtistsProps> = ({ topArtists }) => {
+const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
   return (
     <>
       <Head>
@@ -81,5 +83,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: { topArtists: null },
   };
 };
+
+TopArtists.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default TopArtists;
