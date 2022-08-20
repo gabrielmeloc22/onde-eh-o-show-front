@@ -1,26 +1,40 @@
 import * as RadixNav from "@radix-ui/react-navigation-menu";
-import NextLink from "next/link";
 import { styled } from "../../styles/stitches.config";
+import { NavLink } from "./NavLink";
 
-export const NavRoot = styled(RadixNav.Root, {});
-export const NavList = styled(RadixNav.List, {});
-export const NavItem = styled(RadixNav.Item, {});
-export const NavLink = styled(RadixNav.Link, {});
-
-// Todo: add styles and logic
+const NavRoot = styled(RadixNav.Root, {});
+const NavList = styled(RadixNav.List, {});
+const NavItem = styled(RadixNav.Item, {});
 
 export function NavigationMenu() {
   return (
     <NavRoot
       css={{
+        position: "relative",
+        display: "flex",
+        br: "$small",
+        w: "fit-content",
+        mx: "auto",
+        py: "$4",
+        px: "$3",
+        gap: "$3",
         bgColor: "$slate5",
+        justifyContent: "center",
       }}
     >
-      <NavList>
+      <NavList
+        css={{
+          position: "relative",
+          display: "flex",
+          gap: "$3",
+          justifyContent: "center",
+        }}
+      >
         <NavItem>
-          <NextLink href="/" passHref>
-            <NavLink>Something</NavLink>
-          </NextLink>
+          <NavLink href="/top-artists">Artistas favoritos</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/select-artists">Selecionar</NavLink>
         </NavItem>
       </NavList>
     </NavRoot>

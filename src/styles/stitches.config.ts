@@ -17,8 +17,8 @@ export const { styled, createTheme, getCssText, globalCss, config } =
         mono: "Roboto Mono, monospace",
       },
       radii: {
-        small: "0.5rem",
-        medium: "1rem",
+        small: "0.25rem",
+        medium: "0.5rem",
         round: "9999px",
       },
       space: {
