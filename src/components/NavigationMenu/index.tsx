@@ -15,6 +15,7 @@ export function NavigationMenu() {
         br: "$small",
         w: "fit-content",
         mx: "auto",
+        mb: "$1",
         py: "$4",
         px: "$3",
         gap: "$3",
