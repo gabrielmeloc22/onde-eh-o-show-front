@@ -42,21 +42,21 @@ export function ArtistCard({
     <Box
       css={{
         display: "flex",
+        flexDir: "column",
         bgColor: "$slate4",
         gap: "$4",
+        maxH: "fit-content",
       }}
     >
       <Image
         css={{
           w: "100%",
-          maxW: "30%",
+          maxH: "10rem",
         }}
         src={url}
-        width={width}
-        height={height}
         alt={name}
         skeleton={true}
-        objectFit="cover"
+        objectPosition="0 30%"
       />
       <Box
         css={{

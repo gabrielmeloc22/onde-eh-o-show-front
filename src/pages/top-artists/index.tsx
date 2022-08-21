@@ -1,8 +1,9 @@
+import { PlusIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import { GetServerSideProps } from "next/types";
 import { ArtistCard } from "../../components/ArtistCard";
 import { Layout } from "../../components/Layout";
-import { Box, Text } from "../../components/Primitives";
+import { Box, Button, Text } from "../../components/Primitives";
 import { spotifyApi } from "../../services/SpotifyAPI";
 import { NextPageWithLayout } from "../_app";
 
@@ -27,24 +28,17 @@ const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
       <Head>
         <title>My Top Artists</title>
       </Head>
-      <Text
-        css={{
-          textAlign: "center",
-          mb: "$5",
-          fontSize: "large",
-        }}
-      >
-        Aqui estão alguns dos artistas que você anda escutando recentemente no
-        Spotify
-      </Text>
       <Box
         css={{
           display: "grid",
+          mt: "$4",
+          mx: "auto",
+          w: "100%",
           "@bp1": {
             gridTemplateColumns: "1fr",
           },
           "@bp2": {
-            gridTemplateColumns: "repeat(auto-fit, minmax(425px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(325px, 1fr))",
           },
           gap: "$5",
         }}
@@ -57,6 +51,21 @@ const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
             name={name}
           />
         ))}
+        <Box
+          css={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            border: "1px solid $slate5",
+          }}
+        >
+          <Button type="ghost">
+            <Text css={{ color: "$slate9", mb: "$3" }}>
+              Buscar outros artistas
+            </Text>
+            <PlusIcon width="2rem" height="2rem" />
+          </Button>
+        </Box>
       </Box>
     </>
   );
@@ -71,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         Authorization: `Bearer ${accessToken}`,
       },
       params: {
-        limit: 10,
+        limit: 5,
         time_range: "medium_term",
       },
     });

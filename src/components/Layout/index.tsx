@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { Footer } from "../Footer";
 import { Header } from "../Header";
-import { NavigationMenu } from "../NavigationMenu";
 import { Box } from "../Primitives";
 
 interface LayoutProps {
@@ -32,7 +31,7 @@ export function Layout({ children }: LayoutProps) {
           flexDir: "column",
         }}
       >
-        {router.asPath !== "/" && <NavigationMenu />}
+        {/* {router.asPath !== "/" && <NavigationMenu />} */}
         {children}
       </Box>
       <Footer />

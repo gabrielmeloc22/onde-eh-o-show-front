@@ -14,7 +14,7 @@ export const Button = styled("button", {
   defaultVariants: {
     size: "medium",
     color: "primary",
-    type: "normal",
+    type: "default",
   },
 
   variants: {
@@ -34,17 +34,29 @@ export const Button = styled("button", {
         py: "$3",
         px: "$4",
       },
-      
     },
     type: {
-      normal: {},
+      default: {
+        backgroundColor: "$primary5",
+        "&:hover": {
+          backgroundColor: "$primary6",
+        },
+      },
       ghost: {
         height: "fit-content",
         width: "fit-content",
         backgroundColor: "transparent",
         padding: 0,
+        "&:hover": {
+          backgroundColor: "transparent",
+          color: "$primary10",
+        },
       },
       icon: {
+        backgroundColor: "$primary5",
+        "&:hover": {
+          backgroundColor: "$primary6",
+        },
         height: "fit-content",
         width: "fit-content",
         display: "flex",
@@ -55,12 +67,7 @@ export const Button = styled("button", {
     },
     color: {
       primary: {
-
         color: "$primary11",
-        backgroundColor: "$primary5",
-        "&:hover": {
-          backgroundColor: "$primary6",
-        },
       },
     },
   },

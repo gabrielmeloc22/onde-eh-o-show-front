@@ -27,14 +27,22 @@ export function Image({ css, skeleton = false, ...props }: PictureProps) {
           ...css,
           display: "inline-block",
           "& > span": {
+            position: "relative !important",
             w: "100% !important",
             h: "100% !important",
+            "& > img": {
+              position: "relative !important",
+              w: "100% !important",
+              h: "100% !important",
+            },
           },
         }}
         width="100%"
         height="100%"
       >
         <NextImage
+          objectFit="cover"
+          layout="fill"
           {...props}
           onLoadingComplete={() => setImageHasLoaded(true)}
         />
@@ -43,7 +51,7 @@ export function Image({ css, skeleton = false, ...props }: PictureProps) {
   }
   return (
     <Picture css={css}>
-      <NextImage {...props} />
+      <NextImage objectFit="cover" layout="fill" {...props} />
     </Picture>
   );
 }
