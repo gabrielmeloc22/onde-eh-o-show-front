@@ -1,10 +1,10 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { forwardRef } from 'react';
-import { styled } from '../../styles/stitches.config';
+import { AnimatePresence, motion } from "framer-motion";
+import { forwardRef } from "react";
+import { styled } from "../../styles/stitches.config";
 
 const Wrapper = styled(motion.div);
 
-interface FadeProps extends React.ComponentProps<typeof Wrapper> {
+interface FadeProps extends React.ComponentPropsWithRef<typeof Wrapper> {
   in?: boolean;
   duration?: number;
 }

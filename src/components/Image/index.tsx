@@ -3,7 +3,7 @@ import { useState } from "react";
 import { styled } from "../../styles/stitches.config";
 import { Skeleton } from "../Skeleton";
 
-type PictureProps = React.ComponentProps<typeof NextImage> &
+type PictureProps = React.ComponentPropsWithRef<typeof NextImage> &
   Pick<React.ComponentProps<typeof Skeleton>, "css"> & {
     skeleton?: boolean;
   };
