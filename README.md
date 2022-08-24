@@ -9,7 +9,6 @@ seus artistas favoritos vão estar se apresentando no Brasil!
 ### TODO
 
 - [ ] Integração com o backend (Ainda em desenvolvimento)
-- [X] ~~Componente de navegação entre rotas~~
 - [ ] Seleção de artistas e live-search com a Api do Spotify
 - [ ] Verificação em rotas que precisam de autenticação 
 
