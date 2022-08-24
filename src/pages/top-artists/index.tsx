@@ -5,6 +5,7 @@ import { ArtistCard } from "../../components/ArtistCard";
 import { Layout } from "../../components/Layout";
 import { Box, Button, Text } from "../../components/Primitives";
 import { spotifyApi } from "../../services/SpotifyAPI";
+import { withSSRAuth } from "../../utils/withSSRAuth";
 import { NextPageWithLayout } from "../_app";
 
 export type Artist = {
@@ -71,10 +72,10 @@ const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const accessToken = spotifyApi.getAccessToken(ctx.res);
+export const getServerSideProps: GetServerSideProps = withSSRAuth(
+  async (ctx) => {
+    const accessToken = spotifyApi.getAccessToken(ctx.res);
 
-  if (accessToken) {
     const { data } = await spotifyApi.get("/me/top/artists", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -88,10 +89,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       props: { topArtists: data.items },
     };
   }
-  return {
-    props: { topArtists: null },
-  };
-};
+);
 
 TopArtists.getLayout = (page) => <Layout>{page}</Layout>;
 

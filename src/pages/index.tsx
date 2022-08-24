@@ -4,6 +4,7 @@ import Head from "next/head";
 import { FaSpotify } from "react-icons/fa";
 import { Box, Button } from "../components/Primitives";
 import { signIn, useAuth } from "../contexts/auth";
+import { withSSRGuest } from "../utils/withSSRGuest";
 
 interface HomeProps {}
 
@@ -47,19 +48,8 @@ const Home: NextPage<HomeProps> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { "spotify.access_token": accessToken } = context.req.cookies;
-
-  if (accessToken) {
-    return {
-      redirect: {
-        destination: "/top-artists",
-        permanent: false,
-      },
-    };
-  }
-
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
   return { props: {} };
-};
+});
 
 export default Home;
