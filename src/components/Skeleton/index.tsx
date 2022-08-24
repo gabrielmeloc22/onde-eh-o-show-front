@@ -87,36 +87,35 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
           )}
         </AnimatePresence>
       );
-    } else {
-      return (
-        <AnimatePresence mode="wait">
-          {!isLoaded ? (
-            <CustomSkeleton
-              key="skeleton"
-              initial={false}
-              exit={{
-                opacity: 0,
-                transition: { duration: fadeDuration / 2 },
-              }}
-              css={css}
-              ref={ref}
-              {...props}
-            />
-          ) : (
-            <Wrapper
-              key="content"
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: 1,
-                transition: { duration: fadeDuration / 2 },
-              }}
-              ref={ref}
-              css={css}
-              {...props}
-            />
-          )}
-        </AnimatePresence>
-      );
     }
+    return (
+      <AnimatePresence mode="wait">
+        {!isLoaded ? (
+          <CustomSkeleton
+            key="skeleton"
+            initial={false}
+            exit={{
+              opacity: 0,
+              transition: { duration: fadeDuration / 2 },
+            }}
+            css={css}
+            ref={ref}
+            {...props}
+          />
+        ) : (
+          <Wrapper
+            key="content"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: fadeDuration / 2 },
+            }}
+            ref={ref}
+            css={css}
+            {...props}
+          />
+        )}
+      </AnimatePresence>
+    );
   }
 );
