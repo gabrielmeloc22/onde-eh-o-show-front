@@ -74,5 +74,6 @@ export const signIn = () => {
 export const signOut = (ctx?: Parameters<typeof nookies.destroy>[0]) => {
   nookies.destroy(ctx ?? undefined, "spotify.access_token");
   nookies.destroy(ctx ?? undefined, "spotify.refresh_token");
-  router.asPath !== "/" ? router.push("/") : router.reload();
+  router.asPath !== "/" && router.push("/");
+  router.reload();
 };
