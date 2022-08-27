@@ -1,4 +1,4 @@
-import { ComponentProps, keyframes, PropertyValue } from "@stitches/react";
+import { ComponentProps, CSS, keyframes, PropertyValue } from "@stitches/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { forwardRef } from "react";
 import { config, styled } from "../../styles/stitches.config";
@@ -14,7 +14,7 @@ const skeletonAnimation = keyframes({
   },
 });
 
-const skeletonStyle = {
+const skeletonStyle: CSS = {
   backgroundClip: "padding-box",
   backgroundSize: "600%",
   backgroundImage:
