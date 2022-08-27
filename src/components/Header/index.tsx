@@ -1,17 +1,17 @@
-import { ExitIcon } from "@radix-ui/react-icons";
-import { signOut, useAuth } from "../../contexts/auth";
-import { Box, Button, Heading } from "../Primitives";
+import { useAuth } from "../../contexts/auth";
+import { Box, Heading } from "../Primitives";
 import { ThemeSwitcher } from "../ThemeSwitcher";
+import { Profile } from "./Profile";
 
 export function Header() {
-  const { status } = useAuth();
+  const { status, user } = useAuth();
 
   return (
     <Box
       as="header"
       css={{
         display: "flex",
-        alignItems: 'center',
+        alignItems: "center",
         minHeight: "15vh",
       }}
     >
@@ -19,33 +19,28 @@ export function Header() {
         css={{
           width: "100%",
           maxWidth: "1280px",
-          mx:"auto",
+          mx: "auto",
           display: "flex",
           alignItems: "center",
         }}
       >
         <Heading
           css={{
-            mr:"auto",
+            mr: "auto",
           }}
         >
           Onde é o Show
         </Heading>
-        <Box css={{
-          display: "flex",
-          gap: "$4",
-        }}>
-        <ThemeSwitcher />
-        {status === 'authenticated' && (
-          <Button
-            type="icon"
-            aria-label="Sair da sua conta"
-            onClick={() => signOut()}
-          >
-            <ExitIcon />
-          </Button>
-        )}
-      </Box>
+        <Box
+          css={{
+            display: "flex",
+            gap: "$6",
+            alignItems: "center",
+          }}
+        >
+          <ThemeSwitcher />
+          {status === "authenticated" && <Profile />}
+        </Box>
       </Box>
     </Box>
   );
