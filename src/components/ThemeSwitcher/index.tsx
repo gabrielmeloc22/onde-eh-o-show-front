@@ -21,15 +21,8 @@ export function ThemeSwitcher() {
         gap: "$3",
       }}
     >
-      {theme === "dark" ? (
-        <MoonIcon width={17} height={17} />
-      ) : (
-        <SunIcon width={17} height={17} />
-      )}
-      <Switch
-        checked={theme === "dark"}
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      />
+      {theme === "dark" ? <MoonIcon width={17} height={17} /> : <SunIcon width={17} height={17} />}
+      <Switch checked={theme === "dark"} onClick={() => setTheme(theme === "light" ? "dark" : "light")} />
     </Box>
   );
 }
