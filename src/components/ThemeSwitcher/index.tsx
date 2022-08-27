@@ -1,7 +1,8 @@
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { Button } from "../Primitives";
+import { Box } from "../Primitives";
+import { Switch } from "../Switch";
 
 export function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
@@ -11,14 +12,24 @@ export function ThemeSwitcher() {
     setMounted(true);
   }, []);
   if (!mounted) return null;
+
   return (
-    <Button
-      onClick={() => {
-        setTheme(theme === "light" ? "dark" : "light");
+    <Box
+      css={{
+        display: "flex",
+        alignItems: "center",
+        gap: "$3",
       }}
-      type="icon"
     >
-      {theme === "light" ? <SunIcon /> : <MoonIcon />}
-    </Button>
+      {theme === "dark" ? (
+        <MoonIcon width={17} height={17} />
+      ) : (
+        <SunIcon width={17} height={17} />
+      )}
+      <Switch
+        checked={theme === "dark"}
+        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      />
+    </Box>
   );
 }
