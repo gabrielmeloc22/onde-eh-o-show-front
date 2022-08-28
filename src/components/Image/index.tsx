@@ -16,7 +16,15 @@ const Picture = styled("picture", {
   },
 });
 
-export function Image({ css, skeleton = false, ...props }: PictureProps) {
+export function Image({
+  width = "100%",
+  height = "100%",
+  objectFit = "cover",
+  layout = "fill",
+  skeleton = false,
+  css,
+  ...props
+}: PictureProps) {
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
 
   if (skeleton) {
@@ -25,6 +33,8 @@ export function Image({ css, skeleton = false, ...props }: PictureProps) {
         isLoaded={imageHasLoaded}
         css={{
           ...css,
+          w: width,
+          h: height,
           display: "inline-block",
           "& > span": {
             position: "relative !important",
@@ -37,12 +47,12 @@ export function Image({ css, skeleton = false, ...props }: PictureProps) {
             },
           },
         }}
-        width="100%"
-        height="100%"
+        width={width}
+        height={height}
       >
         <NextImage
-          objectFit="cover"
-          layout="fill"
+          objectFit={objectFit}
+          layout={layout}
           {...props}
           onLoadingComplete={() => setImageHasLoaded(true)}
         />
@@ -50,8 +60,14 @@ export function Image({ css, skeleton = false, ...props }: PictureProps) {
     );
   }
   return (
-    <Picture css={css}>
-      <NextImage objectFit="cover" layout="fill" {...props} />
+    <Picture
+      css={{
+        ...css,
+        w: width,
+        h: height,
+      }}
+    >
+      <NextImage objectFit={objectFit} layout={layout} {...props} />
     </Picture>
   );
 }

@@ -27,11 +27,7 @@ export type EventsByArtist = {
   }[];
 };
 
-export function ArtistCard({
-  id,
-  image: { height, url, width },
-  name,
-}: ArtistCardProps) {
+export function ArtistCard({ id, image: { height, url, width }, name }: ArtistCardProps) {
   const { data, loading, error } = useQuery<EventsByArtist>(EVENTS_BY_ARTIST, {
     variables: {
       artistId: id,
@@ -50,12 +46,11 @@ export function ArtistCard({
     >
       <Image
         css={{
-          w: "100%",
           maxH: "10rem",
         }}
         src={url}
         alt={name}
-        skeleton={true}
+        skeleton
         objectPosition="0 30%"
       />
       <Box
