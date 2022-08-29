@@ -1,10 +1,16 @@
 import { useAuth } from "../../contexts/auth";
+import { useBreakpointValue } from "../../styles/hooks/useBreakpointValue";
 import { Box, Heading } from "../Primitives";
 import { ThemeSwitcher } from "../ThemeSwitcher";
+import { HamburgerMenu } from "./HamburgerMenu";
 import { Profile } from "./Profile";
 
 export function Header() {
-  const { status, user } = useAuth();
+  const { status } = useAuth();
+  const shouldShowDrawer = useBreakpointValue({
+    base: true,
+    bp3: false,
+  });
 
   return (
     <Box
@@ -31,16 +37,20 @@ export function Header() {
         >
           Onde é o Show
         </Heading>
-        <Box
-          css={{
-            display: "flex",
-            gap: "$6",
-            alignItems: "center",
-          }}
-        >
-          <ThemeSwitcher />
-          {status === "authenticated" && <Profile />}
-        </Box>
+        {shouldShowDrawer ? (
+          <HamburgerMenu />
+        ) : (
+          <Box
+            css={{
+              display: "flex",
+              gap: "$6",
+              alignItems: "center",
+            }}
+          >
+            <ThemeSwitcher />
+            {status === "authenticated" && <Profile />}
+          </Box>
+        )}
       </Box>
     </Box>
   );
