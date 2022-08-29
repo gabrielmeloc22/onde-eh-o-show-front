@@ -2,10 +2,12 @@ import { normalize } from "stitches-normalize-css";
 import { globalCss } from "./stitches.config";
 
 export const globalStyles = globalCss(...normalize, {
+  "*": {
+    boxSizing: "border-box",
+  },
   body: {
     m: 0,
     p: 0,
-    boxSizing: "border-box",
     fontFamily: "$mono",
     backgroundColor: "$background",
     color: "$slate12",

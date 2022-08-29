@@ -19,6 +19,7 @@ export function ThemeSwitcher() {
         display: "flex",
         alignItems: "center",
         gap: "$3",
+        color: "$slate11",
       }}
     >
       {theme === "dark" ? <MoonIcon width={17} height={17} /> : <SunIcon width={17} height={17} />}
