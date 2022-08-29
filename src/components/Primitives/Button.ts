@@ -1,9 +1,10 @@
 import { styled } from "../../styles/stitches.config";
 
 export const Button = styled("button", {
+  w: "fit-content",
+  h: "fit-content",
   fontFamily: "$mono",
   appearance: "none",
-  backgroundColor: "$color.primary",
   border: "none",
   br: "$small",
   "&:hover": {
@@ -14,7 +15,6 @@ export const Button = styled("button", {
   defaultVariants: {
     size: "medium",
     color: "primary",
-    type: "default",
   },
 
   variants: {
@@ -36,26 +36,19 @@ export const Button = styled("button", {
       },
     },
     type: {
-      default: {
-        backgroundColor: "$primary5",
-        "&:hover": {
-          backgroundColor: "$primary6",
-        },
-      },
       ghost: {
         height: "fit-content",
         width: "fit-content",
-        backgroundColor: "transparent",
+        bgColor: "transparent",
         padding: 0,
         "&:hover": {
-          backgroundColor: "transparent",
-          color: "$primary10",
+          bgColor: "transparent",
         },
       },
       icon: {
-        backgroundColor: "$primary5",
+        bgColor: "$primary5",
         "&:hover": {
-          backgroundColor: "$primary6",
+          bgColor: "$primary6",
         },
         height: "fit-content",
         width: "fit-content",
@@ -68,7 +61,32 @@ export const Button = styled("button", {
     color: {
       primary: {
         color: "$primary11",
+        bgColor: "$primary5",
+        "&:hover": {
+          color: "$primary11",
+          bgColor: "$primary6",
+        },
+      },
+      neutral: {
+        color: "$slate11",
+        bgColor: "$slate5",
+        "&:hover": {
+          color: "$slate11",
+          bgColor: "$slate7",
+        },
       },
     },
   },
+
+  compoundVariants: [
+    {
+      type: "ghost",
+      css: {
+        bgColor: "transparent",
+        "&:hover": {
+          bgColor: "transparent",
+        },
+      },
+    },
+  ],
 });
