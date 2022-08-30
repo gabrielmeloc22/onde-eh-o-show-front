@@ -1,4 +1,5 @@
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import { ComponentPropsWithRef, forwardRef } from "react";
 import { styled } from "../../styles/stitches.config";
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
@@ -20,18 +21,17 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   backgroundColor: "$slate8",
 });
 
-interface AvatarProps extends AvatarPrimitive.AvatarProps {
+interface AvatarProps extends ComponentPropsWithRef<typeof AvatarRoot> {
   name: string;
   src?: string;
-  customFallback?: React.ReactElement;
+  width?: number | string;
+  height?: number | string;
 }
 
-export function Avatar({
-  name,
-  src,
-  customFallback: CustomFallback,
-  ...props
-}: AvatarProps) {
+export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
+  { width, height, css, name, src, ...props },
+  ref
+) {
   function getInitials(name: string) {
     return name
       .split(" ")
@@ -42,9 +42,9 @@ export function Avatar({
   }
 
   return (
-    <AvatarRoot {...props}>
-      <AvatarImage src={src} />
-      <AvatarFallback>{CustomFallback || getInitials(name)}</AvatarFallback>
+    <AvatarRoot ref={ref} {...props}>
+      <AvatarImage css={{ ...css, width, height }} src={src} />
+      <AvatarFallback css={{ ...css, width, height }}>{getInitials(name)}</AvatarFallback>
     </AvatarRoot>
   );
-}
+});
