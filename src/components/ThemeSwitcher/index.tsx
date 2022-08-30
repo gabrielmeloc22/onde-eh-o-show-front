@@ -15,6 +15,8 @@ export function ThemeSwitcher() {
 
   return (
     <Box
+      as="label"
+      aria-label="mudar modo de cor"
       css={{
         display: "flex",
         alignItems: "center",
