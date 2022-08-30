@@ -91,47 +91,44 @@ export function DrawerContent({
   const { open } = useDrawer();
 
   return (
-    <PortalPrimitive forceMount>
-      <AnimatePresence>
-        {open && (
-          <>
-            <OverlayPrimitive asChild>
-              <Overlay
-                initial={{
-                  opacity: 0,
-                }}
-                animate={{
-                  opacity: 1,
-                }}
-                exit={{
-                  opacity: 0,
-                }}
-              />
-            </OverlayPrimitive>
-            <ContentPrimitive asChild {...props}>
-              <ContentWrapper
-                key="drawer"
-                css={{
-                  ...css,
-                  ...positionVariants[position],
-                  w: width,
-                  h: height,
-                  maxW: maxWidth,
-                  maxH: maxHeight,
-                }}
-                initial={slideVariants[position].initial}
-                animate={{
-                  ...slideVariants[position].animate,
-                  transition,
-                }}
-                exit={{ ...slideVariants[position].exit, transition }}
-              >
-                {children}
-              </ContentWrapper>
-            </ContentPrimitive>
-          </>
-        )}
-      </AnimatePresence>
-    </PortalPrimitive>
+    <AnimatePresence>
+      {open && (
+        <PortalPrimitive forceMount>
+          <OverlayPrimitive asChild>
+            <Overlay
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0,
+              }}
+            />
+          </OverlayPrimitive>
+          <ContentPrimitive asChild {...props}>
+            <ContentWrapper
+              css={{
+                ...css,
+                ...positionVariants[position],
+                w: width,
+                h: height,
+                maxW: maxWidth,
+                maxH: maxHeight,
+              }}
+              initial={slideVariants[position].initial}
+              animate={{
+                ...slideVariants[position].animate,
+                transition,
+              }}
+              exit={{ ...slideVariants[position].exit, transition }}
+            >
+              {children}
+            </ContentWrapper>
+          </ContentPrimitive>
+        </PortalPrimitive>
+      )}
+    </AnimatePresence>
   );
 }

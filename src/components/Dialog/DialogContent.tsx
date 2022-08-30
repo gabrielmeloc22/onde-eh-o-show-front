@@ -5,7 +5,7 @@ import { useDialog } from "./Dialog";
 
 const ContentPrimitive = DialogPrimitive.Content;
 const OverlayPrimitive = DialogPrimitive.Overlay;
-const Portal = DialogPrimitive.Portal;
+const PortalPrimitive = DialogPrimitive.Portal;
 
 const Content = styled(motion.div, {
   position: "fixed",
@@ -32,49 +32,48 @@ export function DialogContent({ children, ...props }: DialogContentProps) {
   const { open } = useDialog();
 
   return (
-    <Portal forceMount>
-      <AnimatePresence>
-        {open && (
-          <>
-            <OverlayPrimitive asChild>
-              <Overlay
-                initial={{
-                  opacity: 0,
-                }}
-                animate={{
-                  opacity: 1,
-                }}
-                exit={{
-                  opacity: 0,
-                }}
-              />
-            </OverlayPrimitive>
-            <ContentPrimitive asChild>
-              <Content
-                initial={{
-                  x: "-50%",
-                  y: "-50%",
-                  opacity: 0,
-                  scale: 0.9,
-                }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  transition,
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.9,
-                  transition,
-                }}
-                {...props}
-              >
-                {children}
-              </Content>
-            </ContentPrimitive>
-          </>
-        )}
-      </AnimatePresence>
-    </Portal>
+    <AnimatePresence>
+      {open && (
+        <PortalPrimitive forceMount>
+          <OverlayPrimitive asChild>
+            <Overlay
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0,
+              }}
+            />
+          </OverlayPrimitive>
+
+          <ContentPrimitive asChild>
+            <Content
+              initial={{
+                x: "-50%",
+                y: "-50%",
+                opacity: 0,
+                scale: 0.9,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                transition,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.9,
+                transition,
+              }}
+              {...props}
+            >
+              {children}
+            </Content>
+          </ContentPrimitive>
+        </PortalPrimitive>
+      )}
+    </AnimatePresence>
   );
 }
