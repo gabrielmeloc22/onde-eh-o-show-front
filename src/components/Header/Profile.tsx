@@ -3,21 +3,17 @@ import { signOut, useAuth } from "../../contexts/auth";
 import { styled } from "../../styles/stitches.config";
 import { Avatar } from "../Avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../Popover";
-import { Text } from "../Primitives";
+import { Button, Text } from "../Primitives";
 
-const Item = styled("div", {
-  fontSize: "0.95rem",
-  position: "relative",
+const Item = styled(Button, {
+  w: "100%",
   display: "flex",
   alignItems: "center",
   textAlign: "left",
   gap: "$3",
-  pr: "$4",
-  pl: "$3",
-  py: "$3",
-  "&:hover": {
-    bgColor: "$slate3",
-    cursor: "pointer",
+  defaultVariants: {
+    color: "neutral",
+    size: "large",
   },
 });
 
@@ -96,7 +92,7 @@ export function Profile() {
           h: "fit-content",
           br: "$small",
           bgColor: "$slate6",
-          "div + div": {
+          "button + button": {
             borderTop: "1px solid $slate7",
           },
         }}
