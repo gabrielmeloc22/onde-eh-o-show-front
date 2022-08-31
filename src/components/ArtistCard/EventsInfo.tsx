@@ -9,15 +9,16 @@ interface EventsInfoProps {
 }
 
 const DetailText = styled(Text, {
-  fontSize: "smaller",
-  color: "$slate9",
-  fontWeight: "bold",
   mb: "$2",
+  defaultVariants: {
+    size: "smaller",
+    color: "neutral-medium",
+    weight: "bold",
+  },
 });
 
 export function EventsInfo({ data: { eventsByArtist } }: EventsInfoProps) {
   const { date, link, name, price, purchaseDueDate, venue } = eventsByArtist[0];
-
   return (
     <Box
       key={name}
@@ -33,13 +34,7 @@ export function EventsInfo({ data: { eventsByArtist } }: EventsInfoProps) {
         }}
       >
         <DetailText>Evento mais próximo</DetailText>
-        <ScrollingText
-          css={{
-            color: "$primary9",
-            fontWeight: "bold",
-            fontSize: "1.1rem",
-          }}
-        >
+        <ScrollingText color="primary" weight="bold" size="larger">
           {name}
         </ScrollingText>
       </Box>
@@ -118,7 +113,9 @@ export function EventsInfo({ data: { eventsByArtist } }: EventsInfoProps) {
             }}
           >
             <Text
+              color="neutral-medium"
               css={{
+                color: "$slate11",
                 display: "none",
                 "@bp2": {
                   display: "block",

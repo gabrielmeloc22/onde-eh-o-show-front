@@ -74,12 +74,7 @@ export function Profile() {
           width="2.5rem"
           height="2.5rem"
         />
-        <Text
-          css={{
-            fontWeight: "bold",
-            fontSize: "0.9rem",
-          }}
-        >
+        <Text weight="bold" size="smaller">
           {user?.display_name}
         </Text>
         <ChevronDownIcon />

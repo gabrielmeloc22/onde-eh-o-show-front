@@ -64,7 +64,9 @@ export function ArtistCard({ id, image: { url }, name }: ArtistCardProps) {
         }}
       >
         <Skeleton isLoaded={!loading}>
-          <Text css={{ fontWeight: "bold", fontSize: "large" }}>{name}</Text>
+          <Text weight="bold" size="large">
+            {name}
+          </Text>
         </Skeleton>
         <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!loading}>
           <EventsInfo data={data!} />
