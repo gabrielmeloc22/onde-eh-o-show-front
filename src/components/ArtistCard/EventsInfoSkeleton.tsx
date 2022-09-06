@@ -5,8 +5,8 @@ import { Skeleton } from "../Skeleton";
 
 const Wrapper = styled(motion.div, {
   display: "grid",
-  gridTemplateColumns: "3fr 1fr",
-  gap: "$3",
+  gridTemplateColumns: "7fr 4fr",
+  gap: "calc($3 - 0.125rem)",
 });
 
 type EventsInfoProps = ComponentProps<typeof Wrapper>;
@@ -14,10 +14,9 @@ type EventsInfoProps = ComponentProps<typeof Wrapper>;
 export function EventsInfoSkeleton({ ...props }: EventsInfoProps) {
   return (
     <Wrapper {...props}>
-      <Skeleton width="90%" height="1.75rem" />
-      <Skeleton width="100%" height="1.75rem" />
-      <Skeleton width="60%" height="1.25rem" />
-      <Skeleton width="100%" height="1.25rem" />
+      {new Array(6).fill(0).map((_, i) => (
+        <Skeleton key={i} height="1rem" width="100%" />
+      ))}
       <Skeleton
         css={{
           mt: "$4",
