@@ -12,4 +12,18 @@ export const EVENTS_BY_ARTIST = gql`
       venue
     }
   }
-`
+`;
+
+export const GET_UPCOMING_EVENT = gql`
+  query GetUpcomingEvent($artistId: String!) {
+    upcomingEvent(artistId: $artistId) {
+      id
+      name
+      link
+      date
+      price
+      purchaseDueDate
+      venue
+    }
+  }
+`;
