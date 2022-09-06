@@ -3,10 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nookies from "nookies";
 import SimpleCrypto from "simple-crypto-js";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     query: { code, state, error },
   } = req;
@@ -15,20 +12,17 @@ export default async function handler(
 
   if (error || !state) {
     res.redirect("/");
-  } else if (!simpleCrypto.decrypt(state as string)) {
-    res.redirect("/");
   } else {
     try {
+      simpleCrypto.decrypt(state as string);
+
       const details = {
         grant_type: "authorization_code",
         code,
         redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
       };
       const formBody = Object.entries(details)
-        .map(
-          ([key, value]) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`
-        )
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
         .join("&");
 
       const {
@@ -37,9 +31,9 @@ export default async function handler(
         headers: {
           Authorization:
             "Basic " +
-            Buffer.from(
-              `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
-            ).toString("base64"),
+            Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString(
+              "base64"
+            ),
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
@@ -56,8 +50,8 @@ export default async function handler(
 
       res.redirect("/top-artists");
     } catch (err) {
-      res.redirect("/");
       console.log(err);
+      res.redirect("/");
     }
   }
 }
