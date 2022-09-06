@@ -1,11 +1,11 @@
 import { ArrowRightIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
 import NextLink from "next/link";
-import { EventsByArtist } from ".";
+import { UpcomingEvent } from ".";
 import { styled } from "../../styles/stitches.config";
 import { Box, Button, Link, Text } from "../Primitives";
 import { ScrollingText } from "../ScrollingText";
 interface EventsInfoProps {
-  data: EventsByArtist;
+  data: UpcomingEvent;
 }
 
 const DetailText = styled(Text, {
@@ -17,8 +17,9 @@ const DetailText = styled(Text, {
   },
 });
 
-export function EventsInfo({ data: { eventsByArtist } }: EventsInfoProps) {
-  const { date, link, name, price, purchaseDueDate, venue } = eventsByArtist[0];
+export function EventsInfo({ data: { upcomingEvent } }: EventsInfoProps) {
+  const { name, date, venue, link, price } = upcomingEvent;
+
   return (
     <Box
       key={name}

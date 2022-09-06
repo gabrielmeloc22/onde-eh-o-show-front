@@ -1,7 +1,8 @@
 import { useQuery } from "@apollo/client/react";
-import { EVENTS_BY_ARTIST } from "../../services/Apollo/queries";
+import { BellIcon, PersonIcon } from "@radix-ui/react-icons";
+import { GET_UPCOMING_EVENT } from "../../services/Apollo/queries";
 import { Image } from "../Image";
-import { Box, Text } from "../Primitives";
+import { Box, Button, Text } from "../Primitives";
 import { Skeleton } from "../Skeleton";
 import { EventsInfo } from "./EventsInfo";
 import { EventsInfoSkeleton } from "./EventsInfoSkeleton";
@@ -16,19 +17,19 @@ interface ArtistCardProps {
   };
 }
 
-export type EventsByArtist = {
-  eventsByArtist: {
+export type UpcomingEvent = {
+  upcomingEvent: {
     name: string;
     date: Date;
     venue: string;
     link: string;
     purchaseDueDate: Date;
     price: number;
-  }[];
+  };
 };
 
-export function ArtistCard({ id, image: { url }, name }: ArtistCardProps) {
-  const { data, loading, error } = useQuery<EventsByArtist>(EVENTS_BY_ARTIST, {
+export function ArtistCard({ id, image, name }: ArtistCardProps) {
+  const { data, loading, error } = useQuery<UpcomingEvent>(GET_UPCOMING_EVENT, {
     variables: {
       artistId: id,
     },
@@ -44,15 +45,31 @@ export function ArtistCard({ id, image: { url }, name }: ArtistCardProps) {
         maxH: "fit-content",
       }}
     >
-      <Image
-        css={{
-          maxH: "10rem",
-        }}
-        src={url}
-        alt={name}
-        skeleton
-        objectPosition="0 30%"
-      />
+      {image ? (
+        <Image
+          css={{
+            maxH: "10rem",
+          }}
+          src={image.url}
+          alt={name}
+          skeleton
+          objectPosition="0 30%"
+        />
+      ) : (
+        <Box
+          css={{
+            w: "100%",
+            minH: "10rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            bgColor: "$slate6",
+          }}
+        >
+          <PersonIcon width={80} height={80} />
+        </Box>
+      )}
+
       <Box
         css={{
           h: "100%",
@@ -68,9 +85,39 @@ export function ArtistCard({ id, image: { url }, name }: ArtistCardProps) {
             {name}
           </Text>
         </Skeleton>
-        <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!loading}>
-          <EventsInfo data={data!} />
-        </Skeleton>
+        {!loading && !data?.upcomingEvent ? (
+          <Text
+            as="div"
+            css={{
+              py: "$5",
+              my: "auto",
+              textAlign: "center",
+            }}
+            color="neutral-medium"
+            size="smaller"
+          >
+            Sem eventos próximos.
+            <Button
+              css={{
+                display: "flex",
+                alignItems: "center",
+                mx: "auto",
+                gap: "$2",
+                fontWeight: "bold",
+              }}
+              size="small"
+              type="ghost"
+              aria-label="ativar notificações"
+            >
+              Ativar notificações?
+              <BellIcon width={18} height={18} />
+            </Button>
+          </Text>
+        ) : (
+          <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!loading}>
+            <EventsInfo data={data!} />
+          </Skeleton>
+        )}
       </Box>
     </Box>
   );
