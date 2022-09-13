@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client/react";
-import { BellIcon } from "@radix-ui/react-icons";
+import { Bell } from "phosphor-react";
 import { useState } from "react";
 import { GET_UPCOMING_EVENT } from "../../services/Apollo/queries";
 import { Box, Button, Text } from "../Primitives";
@@ -96,7 +96,7 @@ export function ArtistCard({ id, image, name }: ArtistCardProps) {
               type="ghost"
             >
               Ativar notificações?
-              <BellIcon width={18} height={18} />
+              <Bell size="1.25rem" />
             </Button>
           </Text>
         ) : (

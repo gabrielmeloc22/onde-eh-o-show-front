@@ -1,5 +1,5 @@
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
+import { Moon, Sun } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Box } from "../Primitives";
 import { Switch } from "../Switch";
@@ -24,7 +24,7 @@ export function ThemeSwitcher() {
         color: "$slate11",
       }}
     >
-      {theme === "dark" ? <MoonIcon width={17} height={17} /> : <SunIcon width={17} height={17} />}
+      {theme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
       <Switch checked={theme === "dark"} onClick={() => setTheme(theme === "light" ? "dark" : "light")} />
     </Box>
   );

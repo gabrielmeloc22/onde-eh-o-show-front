@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ExitIcon, GearIcon, PersonIcon } from "@radix-ui/react-icons";
+import { CaretDown, Gear, SignOut, User } from "phosphor-react";
 import { signOut, useAuth } from "../../contexts/auth";
 import { styled } from "../../styles/stitches.config";
 import { Avatar } from "../Avatar";
@@ -11,9 +11,18 @@ const Item = styled(Button, {
   alignItems: "center",
   textAlign: "left",
   gap: "$3",
+  py: "$3",
+  px: "$5",
+  pl: "$3",
+  color: "$slate11",
+  bgColor: "$slate4",
+  fontSize: "$smaller",
+  "&:hover": {
+    bgColor: "$slate5",
+  },
   defaultVariants: {
-    color: "neutral",
-    size: "large",
+    color: "",
+    size: "",
   },
 });
 
@@ -77,7 +86,7 @@ export function Profile() {
         <Text weight="bold" size="smaller">
           {user?.display_name}
         </Text>
-        <ChevronDownIcon />
+        <CaretDown />
       </PopoverTrigger>
       <PopoverContent
         align="end"
@@ -94,15 +103,15 @@ export function Profile() {
         animation={PopoverAnimation}
       >
         <Item>
-          <PersonIcon width={17} height={17} />
+          <User size="1.25rem" />
           Perfil
         </Item>
         <Item>
-          <GearIcon width={17} height={17} />
+          <Gear size="1.25rem" />
           Configurações
         </Item>
         <Item onClick={() => signOut()}>
-          <ExitIcon width={17} height={17} />
+          <SignOut size="1.25rem" />
           Sair
         </Item>
       </PopoverContent>

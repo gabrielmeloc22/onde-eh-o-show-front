@@ -1,5 +1,5 @@
-import { ExitIcon, GearIcon, HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
 import NextLink from "next/link";
+import { Gear, List, SignOut, User } from "phosphor-react";
 import { signOut, useAuth } from "../../contexts/auth";
 import { styled } from "../../styles/stitches.config";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer";
@@ -21,7 +21,7 @@ export function HamburgerMenu() {
   return (
     <Drawer>
       <DrawerTrigger>
-        <HamburgerMenuIcon width={25} height={25} />
+        <List size="1.6rem" />
       </DrawerTrigger>
       <DrawerContent
         width="80vw"
@@ -45,13 +45,13 @@ export function HamburgerMenu() {
           >
             <NextLink href="" passHref>
               <Link>
-                <PersonIcon width={24} height={24} />
+                <User size="1.5rem" />
                 Perfil
               </Link>
             </NextLink>
             <NextLink href="" passHref>
               <Link>
-                <GearIcon width={24} height={24} />
+                <Gear size="1.5rem" />
                 Configurações
               </Link>
             </NextLink>
@@ -62,7 +62,7 @@ export function HamburgerMenu() {
                 signOut();
               }}
             >
-              <ExitIcon width={24} height={24} />
+              <SignOut size="1.5rem" />
               Sair
             </Link>
           </Box>

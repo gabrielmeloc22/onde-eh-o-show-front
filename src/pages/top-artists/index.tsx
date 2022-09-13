@@ -1,6 +1,6 @@
-import { PlusIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import { GetServerSideProps } from "next/types";
+import { Plus } from "phosphor-react";
 import { ArtistCard } from "../../components/ArtistCard";
 import { Layout } from "../../components/Layout";
 import { Box, Button, Text } from "../../components/Primitives";
@@ -44,13 +44,8 @@ const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
           gap: "$5",
         }}
       >
-        {topArtists?.map(({ href, images, name, id }, i) => (
-          <ArtistCard
-            key={href}
-            id={String(i + 1)}
-            image={images[0]}
-            name={name}
-          />
+        {topArtists?.map(({ href, images, name, id }) => (
+          <ArtistCard key={href} id={id} image={images[0]} name={name} />
         ))}
         <Box
           css={{
@@ -61,10 +56,8 @@ const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
           }}
         >
           <Button type="ghost">
-            <Text css={{ color: "$slate9", mb: "$3" }}>
-              Buscar outros artistas
-            </Text>
-            <PlusIcon width="2rem" height="2rem" />
+            <Text css={{ color: "$slate9", mb: "$3" }}>Buscar outros artistas</Text>
+            <Plus size="2rem" />
           </Button>
         </Box>
       </Box>
@@ -72,24 +65,22 @@ const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withSSRAuth(
-  async (ctx) => {
-    const accessToken = spotifyApi.getAccessToken(ctx.res);
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  const accessToken = spotifyApi.getAccessToken(ctx.res);
 
-    const { data } = await spotifyApi.get("/me/top/artists", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      params: {
-        limit: 5,
-        time_range: "medium_term",
-      },
-    });
-    return {
-      props: { topArtists: data.items },
-    };
-  }
-);
+  const { data } = await spotifyApi.get("/me/top/artists", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    params: {
+      limit: 5,
+      time_range: "medium_term",
+    },
+  });
+  return {
+    props: { topArtists: data.items },
+  };
+});
 
 TopArtists.getLayout = (page) => <Layout>{page}</Layout>;
 

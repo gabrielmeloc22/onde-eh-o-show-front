@@ -1,5 +1,5 @@
-import { ArrowRightIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
 import NextLink from "next/link";
+import { ArrowRight, ArrowSquareOut } from "phosphor-react";
 import { UpcomingEvent } from ".";
 import { styled } from "../../styles/stitches.config";
 import { Box, Button, Link, Text } from "../Primitives";
@@ -57,7 +57,7 @@ export function EventsInfo({ data: { upcomingEvent } }: EventsInfoProps) {
             style: "currency",
             currency: "BRL",
           }).format(price)}
-          <ExternalLinkIcon />
+          <ArrowSquareOut />
         </Text>
       </Box>
       <Box>
@@ -125,7 +125,7 @@ export function EventsInfo({ data: { upcomingEvent } }: EventsInfoProps) {
             >
               Mais eventos
             </Text>
-            <ArrowRightIcon width={20} height={20} />
+            <ArrowRight size="1.25rem" />
           </Link>
         </NextLink>
       </Box>
