@@ -46,10 +46,6 @@ export const Button = styled("button", {
         },
       },
       icon: {
-        bgColor: "$primary5",
-        "&:hover": {
-          bgColor: "$primary6",
-        },
         height: "fit-content",
         width: "fit-content",
         display: "flex",
