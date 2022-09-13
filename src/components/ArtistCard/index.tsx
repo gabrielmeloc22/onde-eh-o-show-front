@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/client/react";
-import { BellIcon, PersonIcon } from "@radix-ui/react-icons";
+import { BellIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
 import { GET_UPCOMING_EVENT } from "../../services/Apollo/queries";
-import { Image } from "../Image";
 import { Box, Button, Text } from "../Primitives";
 import { Skeleton } from "../Skeleton";
+import { ArtistImage } from "./ArtistImage";
+import { CardOptions } from "./CardOptions";
 import { EventsInfo } from "./EventsInfo";
 import { EventsInfoSkeleton } from "./EventsInfoSkeleton";
 
@@ -34,42 +36,27 @@ export function ArtistCard({ id, image, name }: ArtistCardProps) {
       artistId: id,
     },
   });
+  const [hover, setHover] = useState(false);
 
   return (
     <Box
       css={{
+        position: "relative",
         display: "flex",
         flexDir: "column",
         bgColor: "$slate4",
         gap: "$4",
         maxH: "fit-content",
+        zIndex: 0,
       }}
+      tabIndex={0}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onFocus={() => setHover(true)}
+      onBlur={() => setHover(false)}
     >
-      {image ? (
-        <Image
-          css={{
-            maxH: "10rem",
-          }}
-          src={image.url}
-          alt={name}
-          skeleton
-          objectPosition="0 30%"
-        />
-      ) : (
-        <Box
-          css={{
-            w: "100%",
-            minH: "10rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            bgColor: "$slate6",
-          }}
-        >
-          <PersonIcon width={80} height={80} />
-        </Box>
-      )}
-
+      <CardOptions hover={hover} />
+      <ArtistImage alt={name} image={image} />
       <Box
         css={{
           h: "100%",
@@ -107,7 +94,6 @@ export function ArtistCard({ id, image, name }: ArtistCardProps) {
               }}
               size="small"
               type="ghost"
-              aria-label="ativar notificações"
             >
               Ativar notificações?
               <BellIcon width={18} height={18} />
