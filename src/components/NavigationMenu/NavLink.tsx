@@ -11,7 +11,6 @@ const StyledNavLink = styled(Link, {
   h: "100%",
   br: "$small",
   transition: "color 0.15s ease-out",
-  zIndex: 1,
   color: "inherit",
   textDecoration: "none",
   "&[data-active]": {
