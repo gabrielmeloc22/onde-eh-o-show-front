@@ -3,6 +3,12 @@ import { Bell, Heart } from "phosphor-react";
 import { useBreakpointValue } from "../../styles/hooks/useBreakpointValue";
 import { styled } from "../../styles/stitches.config";
 import { Button } from "../Primitives";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger as OriginalTooltipTrigger,
+} from "../Tooltip";
 
 const Wrapper = styled(motion.div, {
   position: "absolute",
@@ -14,7 +20,7 @@ const Wrapper = styled(motion.div, {
   zIndex: 1,
 });
 
-const IconButton = styled(Button, {
+const TooltipTrigger = styled(OriginalTooltipTrigger, Button, {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -25,7 +31,7 @@ const IconButton = styled(Button, {
   },
   defaultVariants: {
     type: "icon",
-    color: "",
+    color: "neutral",
   },
 });
 
@@ -48,12 +54,24 @@ export function CardOptions({ hover, ...props }: CardOptions) {
           exit={{ opacity: 0, x: 10, transition: { duration: 0.2 } }}
           {...props}
         >
-          <IconButton aria-label="adicionar aos meus interesses">
-            <Heart size="1.25rem" />
-          </IconButton>
-          <IconButton aria-label="receber notificações sobre eventos desse artista">
-            <Bell size="1.25rem" />
-          </IconButton>
+          <TooltipProvider delayDuration={500}>
+            <Tooltip>
+              <TooltipTrigger>
+                <Heart size="1.25rem" />
+              </TooltipTrigger>
+              <TooltipContent side="left" sideOffset={5}>
+                Adicionar artista aos meus favoritos
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Bell size="1.25rem" />
+              </TooltipTrigger>
+              <TooltipContent side="left" sideOffset={5}>
+                Ativar notificações
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Wrapper>
       )}
     </AnimatePresence>
