@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Box } from "../Primitives";
 import { Switch } from "../Switch";
 
-export function ThemeSwitcher() {
+export function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);
   const { setTheme, theme } = useTheme();
 

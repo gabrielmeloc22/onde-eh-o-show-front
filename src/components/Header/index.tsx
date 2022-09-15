@@ -1,7 +1,7 @@
 import { useAuth } from "../../contexts/auth";
 import { useBreakpointValue } from "../../styles/hooks/useBreakpointValue";
 import { Box, Heading } from "../Primitives";
-import { ThemeSwitcher } from "../ThemeSwitcher";
+import { ThemeSwitch } from "../ThemeSwitch";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { Profile } from "./Profile";
 
@@ -47,7 +47,7 @@ export function Header() {
               alignItems: "center",
             }}
           >
-            <ThemeSwitcher />
+            <ThemeSwitch />
             {status === "authenticated" && <Profile />}
           </Box>
         )}

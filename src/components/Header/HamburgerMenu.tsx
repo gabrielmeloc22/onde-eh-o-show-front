@@ -4,7 +4,7 @@ import { signOut, useAuth } from "../../contexts/auth";
 import { styled } from "../../styles/stitches.config";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer";
 import { Box, Button, Link as BaseLink } from "../Primitives";
-import { ThemeSwitcher } from "../ThemeSwitcher";
+import { ThemeSwitch } from "../ThemeSwitch";
 
 const Link = styled(BaseLink, {
   display: "flex",
@@ -67,7 +67,7 @@ export function HamburgerMenu() {
             </Link>
           </Box>
         )}
-        <ThemeSwitcher />
+        <ThemeSwitch />
       </DrawerContent>
     </Drawer>
   );
