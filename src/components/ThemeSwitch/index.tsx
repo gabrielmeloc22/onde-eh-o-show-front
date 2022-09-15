@@ -6,7 +6,7 @@ import { Switch } from "../Switch";
 
 export function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);
-  const { setTheme, theme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -24,8 +24,11 @@ export function ThemeSwitch() {
         color: "$slate11",
       }}
     >
-      {theme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
-      <Switch checked={theme === "dark"} onClick={() => setTheme(theme === "light" ? "dark" : "light")} />
+      {resolvedTheme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
+      <Switch
+        checked={resolvedTheme === "dark"}
+        onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
+      />
     </Box>
   );
 }
