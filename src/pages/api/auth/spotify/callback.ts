@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .join("&");
 
       const {
-        data: { access_token, refresh_token, expires_in },
+        data: { access_token, refresh_token },
       } = await axios.post("https://accounts.spotify.com/api/token", formBody, {
         headers: {
           Authorization:
@@ -39,7 +39,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       nookies.set({ res }, "spotify.access_token", access_token, {
-        maxAge: expires_in,
         path: "/",
         secure: true,
       });
@@ -48,9 +47,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         secure: true,
       });
 
-      res.redirect("/top-artists");
-    } catch (err) {
-      console.log(err);
+      res.redirect("/");
+    } catch {
       res.redirect("/");
     }
   }
