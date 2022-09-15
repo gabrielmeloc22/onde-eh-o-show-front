@@ -4,7 +4,7 @@ import { Plus } from "phosphor-react";
 import { ArtistCard } from "../../components/ArtistCard";
 import { Layout } from "../../components/Layout";
 import { Box, Button, Text } from "../../components/Primitives";
-import { spotifyApi } from "../../services/SpotifyAPI";
+import { createSpotifyApi } from "../../services/SpotifyAPI";
 import { withSSRAuth } from "../../utils/withSSRAuth";
 import { NextPageWithLayout } from "../_app";
 
@@ -66,12 +66,9 @@ const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
-  const accessToken = spotifyApi.getAccessToken(ctx.res);
+  const spotifyApi = createSpotifyApi(ctx);
 
   const { data } = await spotifyApi.get("/me/top/artists", {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
     params: {
       limit: 5,
       time_range: "medium_term",

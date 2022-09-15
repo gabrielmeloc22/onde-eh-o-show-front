@@ -1,13 +1,7 @@
-import router from "next/router";
+import { default as router } from "next/router";
 import nookies, { parseCookies } from "nookies";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { spotifyApi } from "../../services/SpotifyAPI";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createSpotifyApi } from "../../services/SpotifyAPI";
 
 type User = {
   display_name: string;
@@ -32,22 +26,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [status, setStatus] = useState<AuthContextData["status"]>("loading");
 
   useEffect(() => {
-    const { "spotify.access_token": accessToken } = parseCookies(undefined);
+    const spotifyApi = createSpotifyApi();
+    const accessToken = parseCookies()["spotify.access_token"];
 
     if (accessToken) {
-      spotifyApi
-        .get("/me")
-        .then(({ data: { display_name, email, images, id } }) => {
-          setStatus("authenticated");
-          setUser({
-            display_name,
-            email,
-            images,
-            id,
-          });
+      spotifyApi.get("/me").then(({ data: { display_name, email, images, id } }) => {
+        setStatus("authenticated");
+        setUser({
+          display_name,
+          email,
+          images,
+          id,
         });
+      });
     } else {
       setStatus("unauthenticated");
+      user && setUser(undefined);
     }
   }, []);
 
@@ -72,8 +66,9 @@ export const signIn = () => {
 };
 
 export const signOut = (ctx?: Parameters<typeof nookies.destroy>[0]) => {
-  nookies.destroy(ctx ?? undefined, "spotify.access_token");
-  nookies.destroy(ctx ?? undefined, "spotify.refresh_token");
-  router.asPath !== "/" && router.push("/");
-  router.reload();
+  nookies.destroy(ctx, "spotify.access_token");
+  nookies.destroy(ctx, "spotify.refresh_token");
+  if (typeof window !== undefined) {
+    router.reload();
+  }
 };
