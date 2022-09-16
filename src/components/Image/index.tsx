@@ -36,6 +36,7 @@ export function Image({
           w: width,
           h: height,
           display: "inline-block",
+          position: "relative",
           "& > span": {
             position: "relative !important",
             w: "100% !important",
