@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { Footer } from "../Footer";
 import { Header } from "../Header";
 import { Box } from "../Primitives";
+import { Nav } from "./Nav";
 
 interface LayoutProps {
   children: ReactNode;
@@ -31,7 +32,7 @@ export function Layout({ children }: LayoutProps) {
           flexDir: "column",
         }}
       >
-        {/* {router.asPath !== "/" && <NavigationMenu />} */}
+        {router.asPath !== "/" && <Nav />}
         {children}
       </Box>
       <Footer />

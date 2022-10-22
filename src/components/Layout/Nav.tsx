@@ -21,7 +21,7 @@ export function Nav() {
         }}
       >
         <NavItem>
-          <NavLink href="/top-artists">Meus Interesses</NavLink>
+          <NavLink href="/top-artists">Favoritos</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/pesquisar">Pesquisar</NavLink>
