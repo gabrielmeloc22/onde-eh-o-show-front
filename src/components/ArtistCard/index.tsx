@@ -1,7 +1,6 @@
-import { useQuery } from "@apollo/client/react";
 import { Bell } from "phosphor-react";
 import { useState } from "react";
-import { GET_UPCOMING_EVENT } from "../../services/Apollo/queries";
+import { useGetUpcomingEventQuery } from "../../../generated/graphql";
 import { Box, Button, Text } from "../Primitives";
 import { Skeleton } from "../Skeleton";
 import { ArtistImage } from "./ArtistImage";
@@ -19,23 +18,16 @@ interface ArtistCardProps {
   };
 }
 
-export type UpcomingEvent = {
-  upcomingEvent: {
-    name: string;
-    date: Date;
-    venue: string;
-    link: string;
-    purchaseDueDate: Date;
-    price: number;
-  };
-};
-
 export function ArtistCard({ id, image, name }: ArtistCardProps) {
-  const { data, loading, error } = useQuery<UpcomingEvent>(GET_UPCOMING_EVENT, {
-    variables: {
+  const { data, isFetching, error } = useGetUpcomingEventQuery(
+    {
       artistId: id,
     },
-  });
+    {
+      staleTime: 1000 * 60 * 60,
+    }
+  );
+
   const [hover, setHover] = useState(false);
 
   return (
@@ -67,12 +59,12 @@ export function ArtistCard({ id, image, name }: ArtistCardProps) {
           p: "$4",
         }}
       >
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isFetching}>
           <Text weight="bold" size="large">
             {name}
           </Text>
         </Skeleton>
-        {!loading && !data?.upcomingEvent ? (
+        {!isFetching && !data?.getArtistUpcomingEvent ? (
           <Text
             as="div"
             css={{
@@ -100,7 +92,7 @@ export function ArtistCard({ id, image, name }: ArtistCardProps) {
             </Button>
           </Text>
         ) : (
-          <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!loading}>
+          <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!isFetching}>
             <EventsInfo data={data!} />
           </Skeleton>
         )}

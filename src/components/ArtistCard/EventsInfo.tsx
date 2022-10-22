@@ -1,11 +1,11 @@
 import NextLink from "next/link";
 import { ArrowRight, ArrowSquareOut } from "phosphor-react";
-import { UpcomingEvent } from ".";
+import { GetUpcomingEventQuery } from "../../../generated/graphql";
 import { styled } from "../../styles/stitches.config";
 import { Box, Button, Link, Text } from "../Primitives";
 import { ScrollingText } from "../ScrollingText";
 interface EventsInfoProps {
-  data: UpcomingEvent;
+  data: GetUpcomingEventQuery;
 }
 
 const DetailText = styled(Text, {
@@ -17,8 +17,8 @@ const DetailText = styled(Text, {
   },
 });
 
-export function EventsInfo({ data: { upcomingEvent } }: EventsInfoProps) {
-  const { name, date, venue, link, price } = upcomingEvent;
+export function EventsInfo({ data: { getArtistUpcomingEvent } }: EventsInfoProps) {
+  const { name, date, price, availableTickets, venue } = getArtistUpcomingEvent!;
 
   return (
     <Box
@@ -62,7 +62,7 @@ export function EventsInfo({ data: { upcomingEvent } }: EventsInfoProps) {
       </Box>
       <Box>
         <DetailText>Local</DetailText>
-        <Text>{venue}</Text>
+        <Text>{venue?.location?.street}</Text>
       </Box>
       <Box>
         <DetailText>Data</DetailText>
@@ -85,7 +85,7 @@ export function EventsInfo({ data: { upcomingEvent } }: EventsInfoProps) {
           <Button
             as="a"
             aria-label="acessar página de ingressos"
-            href={link}
+            href={"#"}
             css={{
               textDecoration: "none",
             }}
