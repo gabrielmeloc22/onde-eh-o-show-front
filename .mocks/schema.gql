@@ -1,0 +1,30 @@
+type VenueLocation {
+  street: String
+  city: String
+  state: String
+  zip: String
+}
+
+type Venue {
+  name: String!
+  location: VenueLocation
+}
+
+type Event {
+  id: ID!
+  name: String!
+  description: String!
+  date: String!
+  url: String!
+  availableTickets: Int!
+  price: Float!
+  venue: Venue
+}
+
+input ArtistUpcomingEventWhereInput {
+  artistId: ID!
+}
+
+type Query {
+  getArtistUpcomingEvent(where: ArtistUpcomingEventWhereInput): Event
+}

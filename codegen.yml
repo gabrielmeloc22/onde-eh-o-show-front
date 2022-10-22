@@ -1,0 +1,11 @@
+overwrite: true
+schema: ".mocks/schema.gql"
+documents: "src/**/*.gql"
+generates:
+  generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-query"
+    config:
+      fetcher: "../src/graphql/fetcher#fetcher"

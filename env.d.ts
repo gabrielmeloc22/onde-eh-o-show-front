@@ -9,5 +9,6 @@ declare namespace NodeJS {
     SPOTIFY_REDIRECT_URI: string;
     SPOTIFY_STATE_SECRET: string;
     NEXT_PUBLIC_API_MOCKING: "true" | "false";
+    NEXT_PUBLIC_API_URL: string;
   }
 }

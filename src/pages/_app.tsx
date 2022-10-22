@@ -1,11 +1,11 @@
-import { ApolloProvider } from "@apollo/client";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import { NextPage } from "next/types";
 import { ReactNode } from "react";
 import { Layout } from "../components/Layout";
 import { AuthProvider } from "../contexts/auth";
-import { client } from "../services/Apollo";
+import { queryClient } from "../services/ReactQuery";
 import { globalStyles } from "../styles/globalStyles";
 import { darkTheme } from "../styles/stitches.config";
 
@@ -22,10 +22,7 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-export default function MyApp({
-  Component,
-  pageProps: { ...pageProps },
-}: AppPropsWithLayout) {
+export default function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   globalStyles();
   const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
 
@@ -39,9 +36,9 @@ export default function MyApp({
       }}
     >
       <AuthProvider>
-        <ApolloProvider client={client}>
+        <QueryClientProvider client={queryClient}>
           {getLayout(<Component {...pageProps} />)}
-        </ApolloProvider>
+        </QueryClientProvider>
       </AuthProvider>
     </ThemeProvider>
   );

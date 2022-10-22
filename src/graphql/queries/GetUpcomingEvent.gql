@@ -1,0 +1,19 @@
+query GetUpcomingEvent($artistId: ID!) {
+  getArtistUpcomingEvent(where: { artistId: $artistId }) {
+    id
+    name
+    description
+    date
+    url
+    price
+    availableTickets
+    venue {
+      name
+      location {
+        city
+        state
+        street
+      }
+    }
+  }
+}
