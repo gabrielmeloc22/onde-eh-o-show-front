@@ -1,4 +1,3 @@
-import { eventsByArtist } from "./eventsByArtist";
-import { getUpcomingEvent } from "./upcomingEvents";
+import { GetUpcomingEvent } from "./getUpcomingEvent";
 
-export const handlers = [...eventsByArtist, ...getUpcomingEvent];
+export const handlers = [...GetUpcomingEvent];
