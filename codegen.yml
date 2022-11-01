@@ -1,5 +1,5 @@
 overwrite: true
-schema: ".mocks/schema.gql"
+schema: ${NEXT_PUBLIC_API_URL}
 documents: "src/**/*.gql"
 generates:
   generated/graphql.ts:

@@ -9,11 +9,6 @@ import { queryClient } from "../services/ReactQuery";
 import { globalStyles } from "../styles/globalStyles";
 import { darkTheme } from "../styles/stitches.config";
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === "true") {
-  const { initMocks } = require("../../.mocks");
-  initMocks();
-}
-
 export type NextPageWithLayout<P = any> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
 };
