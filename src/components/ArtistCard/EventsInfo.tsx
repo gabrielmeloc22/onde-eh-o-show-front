@@ -1,12 +1,14 @@
 import NextLink from "next/link";
-import { ArrowRight, ArrowSquareOut, Bell } from "phosphor-react";
+import { ArrowRight, Bell } from "phosphor-react";
 import { styled } from "../../styles/stitches.config";
 import { Box, Button, Link, Text } from "../Primitives";
 import { ScrollingText } from "../ScrollingText";
-import { GetUpcomingEventData } from "./hooks/useGetUpcomingEventQuery";
+import { Skeleton } from "../Skeleton";
+import { EventsInfoSkeleton } from "./EventsInfoSkeleton";
+import { useGetUpcomingEventQuery } from "./hooks/useGetUpcomingEventQuery";
 
 type EventsInfoProps = {
-  data: GetUpcomingEventData;
+  artistId: string;
 };
 
 const DetailText = styled(Text, {
@@ -18,7 +20,9 @@ const DetailText = styled(Text, {
   },
 });
 
-export function EventsInfo({ data }: EventsInfoProps) {
+export function EventsInfo({ artistId }: EventsInfoProps) {
+  const { data, isFetching } = useGetUpcomingEventQuery(artistId);
+
   if (!data) {
     return (
       <Text
@@ -51,24 +55,26 @@ export function EventsInfo({ data }: EventsInfoProps) {
   }
   const { url, name, venue, date } = data;
   return (
-    <Box
-      css={{
-        display: "grid",
-        justifyContent: "space-between",
-        gap: "$4",
-      }}
-    >
+    <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!isFetching}>
       <Box
         css={{
-          overflow: "hidden",
+          display: "grid",
+          justifyContent: "space-between",
+          gap: "$4",
         }}
       >
-        <DetailText>Evento mais próximo</DetailText>
-        <ScrollingText color="primary" weight="bold" size="larger">
-          {name}
-        </ScrollingText>
-      </Box>
-      {/* <Box>
+        <Box
+          css={{
+            overflow: "hidden",
+          }}
+        >
+          <DetailText>Evento mais próximo</DetailText>
+          <ScrollingText color="primary" weight="bold" size="larger">
+            {name}
+          </ScrollingText>
+        </Box>
+        {/* To implement api feature */}
+        {/* <Box>
         <DetailText>Menor preço</DetailText>
         <Text
           as="a"
@@ -89,75 +95,76 @@ export function EventsInfo({ data }: EventsInfoProps) {
           <ArrowSquareOut />
         </Text>
       </Box> */}
-      <Box>
-        <DetailText>Local</DetailText>
-        <Text>{venue?.address}</Text>
-      </Box>
-      <Box>
-        <DetailText>Data</DetailText>
-        <Text>
-          {new Intl.DateTimeFormat("pt-BR", {
-            dateStyle: "short",
-          }).format(new Date(date))}
-        </Text>
-      </Box>
-      <Box
-        css={{
-          mt: "$4",
-          gridColumn: "1 / span 2",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <NextLink href="" passHref>
-          <Button
-            as="a"
-            aria-label="acessar página de ingressos"
-            href={"#"}
-            css={{
-              textDecoration: "none",
-            }}
-          >
-            Ingressos
-          </Button>
-        </NextLink>
-        <NextLink href={url} passHref>
-          <Link
-            aria-label="Ver mais eventos"
-            color="neutral"
-            css={{
-              whiteSpace: "nowrap",
-              display: "flex",
-              alignItems: "center",
-              gap: "$2",
-              "& > svg": {
-                transition: "transform 0.2s ease-in-out",
-              },
-              "&:hover": {
-                textDecoration: "none",
-                "& > svg": {
-                  transform: "translateX(4px)",
-                },
-              },
-            }}
-          >
-            <Text
-              color="neutral-medium"
+        <Box>
+          <DetailText>Local</DetailText>
+          <Text>{venue?.address}</Text>
+        </Box>
+        <Box>
+          <DetailText>Data</DetailText>
+          <Text>
+            {new Intl.DateTimeFormat("pt-BR", {
+              dateStyle: "short",
+            }).format(new Date(date))}
+          </Text>
+        </Box>
+        <Box
+          css={{
+            mt: "$4",
+            gridColumn: "1 / span 2",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <NextLink href="" passHref>
+            <Button
+              as="a"
+              aria-label="acessar página de ingressos"
+              href={"#"}
               css={{
-                color: "$slate11",
-                display: "none",
-                "@bp2": {
-                  display: "block",
+                textDecoration: "none",
+              }}
+            >
+              Ingressos
+            </Button>
+          </NextLink>
+          <NextLink href={url} passHref>
+            <Link
+              aria-label="Ver mais eventos"
+              color="neutral"
+              css={{
+                whiteSpace: "nowrap",
+                display: "flex",
+                alignItems: "center",
+                gap: "$2",
+                "& > svg": {
+                  transition: "transform 0.2s ease-in-out",
+                },
+                "&:hover": {
+                  textDecoration: "none",
+                  "& > svg": {
+                    transform: "translateX(4px)",
+                  },
                 },
               }}
             >
-              Mais eventos
-            </Text>
-            <ArrowRight size="1.25rem" />
-          </Link>
-        </NextLink>
+              <Text
+                color="neutral-medium"
+                css={{
+                  color: "$slate11",
+                  display: "none",
+                  "@bp2": {
+                    display: "block",
+                  },
+                }}
+              >
+                Mais eventos
+              </Text>
+              <ArrowRight size="1.25rem" />
+            </Link>
+          </NextLink>
+        </Box>
       </Box>
-    </Box>
+    </Skeleton>
   );
 }

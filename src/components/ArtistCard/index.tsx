@@ -4,18 +4,14 @@ import { Skeleton } from "../Skeleton";
 import { ArtistImage } from "./ArtistImage";
 import { CardOptions } from "./CardOptions";
 import { EventsInfo } from "./EventsInfo";
-import { EventsInfoSkeleton } from "./EventsInfoSkeleton";
 import { useGetArtistQuery } from "./hooks/useGetArtistQuery";
-import { useGetUpcomingEventQuery } from "./hooks/useGetUpcomingEventQuery";
 
 interface ArtistCardProps {
   id: string;
 }
 
 export function ArtistCard({ id }: ArtistCardProps) {
-  const { data: upcomingEvent, isFetching: isFetchingEvent } = useGetUpcomingEventQuery(id);
   const { data: artist, isFetching: isFetchingArtist } = useGetArtistQuery(id);
-
   const [hover, setHover] = useState(false);
 
   return (
@@ -52,10 +48,7 @@ export function ArtistCard({ id }: ArtistCardProps) {
             {artist?.name}
           </Text>
         </Skeleton>
-
-        <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!isFetchingEvent}>
-          <EventsInfo data={upcomingEvent} />
-        </Skeleton>
+        <EventsInfo artistId={id} />
       </Box>
     </Box>
   );
