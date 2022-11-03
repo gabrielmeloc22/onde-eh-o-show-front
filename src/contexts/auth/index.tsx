@@ -1,7 +1,7 @@
 import { default as router } from "next/router";
-import nookies, { parseCookies } from "nookies";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { createSpotifyApi } from "../../services/SpotifyAPI";
+import nookies from "nookies";
+import { createContext, ReactNode, useContext } from "react";
+import { useGetUserQuery } from "./useGetUserQuery";
 
 type User = {
   display_name: string;
@@ -22,28 +22,10 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User>();
-  const [status, setStatus] = useState<AuthContextData["status"]>("loading");
+  const { data: user, isSuccess, isFetched } = useGetUserQuery();
 
-  useEffect(() => {
-    const spotifyApi = createSpotifyApi();
-    const accessToken = parseCookies()["spotify.access_token"];
-
-    if (accessToken) {
-      spotifyApi.get("/me").then(({ data: { display_name, email, images, id } }) => {
-        setStatus("authenticated");
-        setUser({
-          display_name,
-          email,
-          images,
-          id,
-        });
-      });
-    } else {
-      setStatus("unauthenticated");
-      user && setUser(undefined);
-    }
-  }, []);
+  let status: AuthContextData["status"] = "loading";
+  isFetched && isSuccess ? (status = "authenticated") : (status = "unauthenticated");
 
   return (
     <AuthContext.Provider
