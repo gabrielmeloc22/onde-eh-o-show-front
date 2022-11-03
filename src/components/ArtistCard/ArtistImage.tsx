@@ -3,11 +3,7 @@ import { Image } from "../Image";
 import { Box } from "../Primitives";
 
 interface ArtistImageProps {
-  image: {
-    url: string;
-    width?: number;
-    height?: number;
-  };
+  image?: string;
   alt: string;
 }
 
@@ -19,7 +15,7 @@ export function ArtistImage({ alt, image }: ArtistImageProps) {
           css={{
             maxH: "10rem",
           }}
-          src={image.url}
+          src={image}
           alt={alt}
           skeleton
           objectPosition="0 30%"

@@ -1,32 +1,20 @@
-import { Bell } from "phosphor-react";
 import { useState } from "react";
-import { useGetUpcomingEventQuery } from "../../../generated/graphql";
-import { Box, Button, Text } from "../Primitives";
+import { Box, Text } from "../Primitives";
 import { Skeleton } from "../Skeleton";
 import { ArtistImage } from "./ArtistImage";
 import { CardOptions } from "./CardOptions";
 import { EventsInfo } from "./EventsInfo";
 import { EventsInfoSkeleton } from "./EventsInfoSkeleton";
+import { useGetArtistQuery } from "./hooks/useGetArtistQuery";
+import { useGetUpcomingEventQuery } from "./hooks/useGetUpcomingEventQuery";
 
 interface ArtistCardProps {
   id: string;
-  name: string;
-  image: {
-    url: string;
-    width: number;
-    height: number;
-  };
 }
 
-export function ArtistCard({ id, image, name }: ArtistCardProps) {
-  const { data, isFetching, error } = useGetUpcomingEventQuery(
-    {
-      artistId: id,
-    },
-    {
-      staleTime: 1000 * 60 * 60,
-    }
-  );
+export function ArtistCard({ id }: ArtistCardProps) {
+  const { data: upcomingEvent, isFetching: isFetchingEvent } = useGetUpcomingEventQuery(id);
+  const { data: artist, isFetching: isFetchingArtist } = useGetArtistQuery(id);
 
   const [hover, setHover] = useState(false);
 
@@ -48,7 +36,7 @@ export function ArtistCard({ id, image, name }: ArtistCardProps) {
       onBlur={() => setHover(false)}
     >
       <CardOptions hover={hover} />
-      <ArtistImage alt={name} image={image} />
+      <ArtistImage alt={artist?.name ?? ""} image={artist?.image} />
       <Box
         css={{
           h: "100%",
@@ -59,43 +47,15 @@ export function ArtistCard({ id, image, name }: ArtistCardProps) {
           p: "$4",
         }}
       >
-        <Skeleton isLoaded={!isFetching}>
+        <Skeleton isLoaded={!isFetchingArtist}>
           <Text weight="bold" size="large">
-            {name}
+            {artist?.name}
           </Text>
         </Skeleton>
-        {!isFetching && !data?.getArtistUpcomingEvent ? (
-          <Text
-            as="div"
-            css={{
-              py: "$5",
-              my: "auto",
-              textAlign: "center",
-            }}
-            color="neutral-medium"
-            size="smaller"
-          >
-            Sem eventos próximos.
-            <Button
-              css={{
-                display: "flex",
-                alignItems: "center",
-                mx: "auto",
-                gap: "$2",
-                fontWeight: "bold",
-              }}
-              size="small"
-              type="ghost"
-            >
-              Ativar notificações?
-              <Bell size="1.25rem" />
-            </Button>
-          </Text>
-        ) : (
-          <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!isFetching}>
-            <EventsInfo data={data!} />
-          </Skeleton>
-        )}
+
+        <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!isFetchingEvent}>
+          <EventsInfo data={upcomingEvent} />
+        </Skeleton>
       </Box>
     </Box>
   );

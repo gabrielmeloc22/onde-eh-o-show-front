@@ -1,12 +1,13 @@
 import NextLink from "next/link";
-import { ArrowRight, ArrowSquareOut } from "phosphor-react";
-import { GetUpcomingEventQuery } from "../../../generated/graphql";
+import { ArrowRight, ArrowSquareOut, Bell } from "phosphor-react";
 import { styled } from "../../styles/stitches.config";
 import { Box, Button, Link, Text } from "../Primitives";
 import { ScrollingText } from "../ScrollingText";
-interface EventsInfoProps {
-  data: GetUpcomingEventQuery;
-}
+import { GetUpcomingEventData } from "./hooks/useGetUpcomingEventQuery";
+
+type EventsInfoProps = {
+  data: GetUpcomingEventData;
+};
 
 const DetailText = styled(Text, {
   mb: "$2",
@@ -17,12 +18,40 @@ const DetailText = styled(Text, {
   },
 });
 
-export function EventsInfo({ data: { getArtistUpcomingEvent } }: EventsInfoProps) {
-  const { name, date, price, availableTickets, venue } = getArtistUpcomingEvent!;
-
+export function EventsInfo({ data }: EventsInfoProps) {
+  if (!data) {
+    return (
+      <Text
+        as="div"
+        css={{
+          py: "$5",
+          my: "auto",
+          textAlign: "center",
+        }}
+        color="neutral-medium"
+        size="smaller"
+      >
+        Sem eventos próximos.
+        <Button
+          css={{
+            display: "flex",
+            alignItems: "center",
+            mx: "auto",
+            gap: "$2",
+            fontWeight: "bold",
+          }}
+          size="small"
+          type="ghost"
+        >
+          Ativar notificações?
+          <Bell size="1.25rem" />
+        </Button>
+      </Text>
+    );
+  }
+  const { url, name, venue, date } = data;
   return (
     <Box
-      key={name}
       css={{
         display: "grid",
         justifyContent: "space-between",
@@ -39,7 +68,7 @@ export function EventsInfo({ data: { getArtistUpcomingEvent } }: EventsInfoProps
           {name}
         </ScrollingText>
       </Box>
-      <Box>
+      {/* <Box>
         <DetailText>Menor preço</DetailText>
         <Text
           as="a"
@@ -59,10 +88,10 @@ export function EventsInfo({ data: { getArtistUpcomingEvent } }: EventsInfoProps
           }).format(price)}
           <ArrowSquareOut />
         </Text>
-      </Box>
+      </Box> */}
       <Box>
         <DetailText>Local</DetailText>
-        <Text>{venue?.location?.street}</Text>
+        <Text>{venue?.address}</Text>
       </Box>
       <Box>
         <DetailText>Data</DetailText>
@@ -93,7 +122,7 @@ export function EventsInfo({ data: { getArtistUpcomingEvent } }: EventsInfoProps
             Ingressos
           </Button>
         </NextLink>
-        <NextLink href="" passHref>
+        <NextLink href={url} passHref>
           <Link
             aria-label="Ver mais eventos"
             color="neutral"
