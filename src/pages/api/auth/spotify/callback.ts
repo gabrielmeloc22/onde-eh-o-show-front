@@ -2,6 +2,7 @@ import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import nookies from "nookies";
 import SimpleCrypto from "simple-crypto-js";
+import { createUser } from "../_lib/createUser";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -38,6 +39,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
+      const { data } = await axios.get("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      await createUser(data.id);
+
       nookies.set({ res }, "spotify.access_token", access_token, {
         path: "/",
         secure: true,
@@ -48,7 +56,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       res.redirect("/");
-    } catch {
+    } catch (e) {
+      console.log(e);
       res.redirect("/");
     }
   }
