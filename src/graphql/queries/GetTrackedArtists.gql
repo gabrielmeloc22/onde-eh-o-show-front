@@ -1,0 +1,7 @@
+query GetTrackedArtists($where: UserWhereInput!) {
+  user(where: $where) {
+    trackedArtists {
+      spotifyId
+    }
+  }
+}

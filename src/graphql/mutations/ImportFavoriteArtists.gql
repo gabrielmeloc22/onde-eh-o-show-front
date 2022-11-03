@@ -1,0 +1,7 @@
+mutation ImportFavoriteArtists($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+  updateUser(data: $data, where: $where) {
+    trackedArtists {
+      spotifyId
+    }
+  }
+}
