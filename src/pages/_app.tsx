@@ -30,11 +30,9 @@ export default function MyApp({ Component, pageProps: { ...pageProps } }: AppPro
         dark: darkTheme.className,
       }}
     >
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          {getLayout(<Component {...pageProps} />)}
-        </QueryClientProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }
