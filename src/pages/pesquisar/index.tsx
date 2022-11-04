@@ -3,7 +3,7 @@ import Head from "next/head";
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { ArtistCard } from "../../components/ArtistCard";
 import { Box } from "../../components/Primitives";
-import { SearchBox } from "../../components/SearchBox/SearchBox";
+import { SearchBox } from "../../components/SearchBox";
 import { useInfiniteArtistSearch } from "../../components/SearchBox/useInfiniteArtistSearch";
 import { Spinner } from "../../components/Spinner";
 import { withSSRAuth } from "../../utils/withSSRAuth";
@@ -56,8 +56,8 @@ const Search: NextPageWithLayout<SearchProps> = () => {
           gap: "$5",
         }}
       >
-        {artists?.map(({ href, id, images, name }) => (
-          <ArtistCard key={id} id={id} image={images[0]} name={name} />
+        {artists?.map(({ id }) => (
+          <ArtistCard key={id} id={id} />
         ))}
       </Box>
       {isFetching && <Spinner css={{ alignSelf: "center", mt: "$6" }} weight="bold" />}
