@@ -9,6 +9,10 @@ import {
   TooltipProvider,
   TooltipTrigger as OriginalTooltipTrigger,
 } from "../Tooltip";
+import { useIsTrackedArtist } from "./hooks/useIsTrackedArtist";
+import { useAddTrackedArtistMutation, useRemoveTrackedArtistMutation } from "../../../generated/graphql";
+import { useAuth } from "../../contexts/auth";
+import { queryClient } from "../../services/ReactQuery";
 
 const Wrapper = styled(motion.div, {
   position: "absolute",
@@ -37,9 +41,52 @@ const TooltipTrigger = styled(OriginalTooltipTrigger, Button, {
 
 interface CardOptions extends React.ComponentPropsWithRef<typeof Wrapper> {
   hover: boolean;
+  artistId: string;
 }
 
-export function CardOptions({ hover, ...props }: CardOptions) {
+export function CardOptions({ hover, artistId, ...props }: CardOptions) {
+  const isFavorite = useIsTrackedArtist(artistId);
+  const { mutateAsync: addTrackedArtist, isSuccess: hasAdded } = useAddTrackedArtistMutation();
+  const { mutateAsync: removeTrackedArtist, isSuccess: hasRemoved } = useRemoveTrackedArtistMutation();
+
+  const { user } = useAuth();
+
+  async function handleTrackArtistMutation() {
+    if (!isFavorite) {
+      await addTrackedArtist({
+        data: {
+          artist: {
+            connectOrCreate: {
+              where: {
+                spotifyId: artistId,
+              },
+              create: {
+                spotifyId: artistId,
+              },
+            },
+          },
+          user: {
+            connect: {
+              spotifyId: user?.id,
+            },
+          },
+        },
+      });
+    } else {
+      await removeTrackedArtist({
+        where: {
+          userId_artistId: {
+            userId: user?.id!,
+            artistId,
+          },
+        },
+      });
+    }
+    queryClient.refetchQueries({
+      queryKey: ["GetTrackedArtists"],
+    });
+  }
+
   const isMobile = useBreakpointValue({
     base: true,
     bp3: false,
@@ -56,11 +103,11 @@ export function CardOptions({ hover, ...props }: CardOptions) {
         >
           <TooltipProvider delayDuration={500}>
             <Tooltip>
-              <TooltipTrigger>
-                <Heart size="1.25rem" />
+              <TooltipTrigger onClick={handleTrackArtistMutation}>
+                <Heart size="1.25rem" weight={(isFavorite || hasAdded) && !hasRemoved ? "fill" : "regular"} />
               </TooltipTrigger>
               <TooltipContent side="left" sideOffset={5}>
-                Adicionar artista aos meus favoritos
+                Adicionar aos favoritos
               </TooltipContent>
             </Tooltip>
             <Tooltip>

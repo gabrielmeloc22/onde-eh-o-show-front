@@ -31,7 +31,7 @@ export function ArtistCard({ id }: ArtistCardProps) {
       onFocus={() => setHover(true)}
       onBlur={() => setHover(false)}
     >
-      <CardOptions hover={hover} />
+      <CardOptions artistId={id} hover={hover} />
       <ArtistImage alt={artist?.name ?? ""} image={artist?.image} />
       <Box
         css={{

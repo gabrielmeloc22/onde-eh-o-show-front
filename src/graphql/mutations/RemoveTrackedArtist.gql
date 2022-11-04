@@ -1,0 +1,5 @@
+mutation RemoveTrackedArtist($where: TrackedArtistWhereUniqueInput!) {
+  deleteOneTrackedArtist(where: $where) {
+    createdAt
+  }
+}

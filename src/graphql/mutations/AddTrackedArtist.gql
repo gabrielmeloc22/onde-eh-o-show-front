@@ -1,0 +1,5 @@
+mutation AddTrackedArtist($data: TrackedArtistCreateInput!) {
+  createOneTrackedArtist(data: $data) {
+    createdAt
+  }
+}
