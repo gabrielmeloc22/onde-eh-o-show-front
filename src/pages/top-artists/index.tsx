@@ -1,81 +1,138 @@
 import Head from "next/head";
+import NextLink from "next/link";
 import { GetServerSideProps } from "next/types";
-import { Plus } from "phosphor-react";
+import { MagnifyingGlass } from "phosphor-react";
+import { FaSpotify } from "react-icons/fa";
+import { Artist, useImportFavoriteArtistsMutation } from "../../../generated/graphql";
 import { ArtistCard } from "../../components/ArtistCard";
+import { Button } from "../../components/Button";
 import { Layout } from "../../components/Layout";
-import { Box, Button, Text } from "../../components/Primitives";
+import { Box, Text } from "../../components/Primitives";
+import { useAuth } from "../../contexts/auth";
+import { useGetTrackedArtistsQuery } from "../../hooks/useGetTrackedArtistsQuery";
 import { createSpotifyApi } from "../../services/SpotifyAPI";
 import { withSSRAuth } from "../../utils/withSSRAuth";
 import { NextPageWithLayout } from "../_app";
 
-export type Artist = {
-  name: string;
-  images: {
-    url: string;
-    height: number;
-    width: number;
-  }[];
-  href: string;
-  id: string;
-};
+const TopArtists: NextPageWithLayout = () => {
+  const { user } = useAuth();
+  const { mutateAsync, isLoading: isMutating } = useImportFavoriteArtistsMutation();
+  const { data: trackedArtists, refetch } = useGetTrackedArtistsQuery(user?.id);
 
-interface TopArtistsProps {
-  topArtists: Artist[];
-}
+  const handleImportTopArtists = async () => {
+    const spotifyApi = createSpotifyApi();
+    const { data } = await spotifyApi("/me/top/artists", {
+      params: {
+        limit: 9,
+        time_range: "short_term",
+      },
+    });
 
-const TopArtists: NextPageWithLayout<TopArtistsProps> = ({ topArtists }) => {
+    await mutateAsync({
+      where: {
+        spotifyId: user?.id,
+      },
+      data: {
+        trackedArtists: {
+          create: data.items.map(({ id }: Artist) => ({
+            artist: {
+              connectOrCreate: {
+                create: {
+                  spotifyId: id,
+                },
+                where: {
+                  spotifyId: id,
+                },
+              },
+            },
+          })),
+        },
+      },
+    }).then(() => {
+      refetch();
+    });
+  };
+
   return (
     <>
       <Head>
-        <title>My Top Artists</title>
+        <title>Artistas Favoritos</title>
       </Head>
-      <Box
-        css={{
-          display: "grid",
-          mt: "$4",
-          mx: "auto",
-          w: "100%",
-          "@bp1": {
-            gridTemplateColumns: "1fr",
-          },
-          "@bp2": {
-            gridTemplateColumns: "repeat(auto-fit, minmax(325px, 1fr))",
-          },
-          gap: "$5",
-        }}
-      >
-        {topArtists?.map(({ href, images, name, id }) => (
-          <ArtistCard key={href} id={id} image={images[0]} name={name} />
-        ))}
+      {trackedArtists && trackedArtists.length > 0 ? (
         <Box
           css={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            border: "1px solid $slate5",
+            display: "grid",
+            mt: "$4",
+            mx: "auto",
+            w: "100%",
+            "@bp1": {
+              gridTemplateColumns: "1fr",
+            },
+            "@bp2": {
+              gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+            },
+            gap: "$5",
           }}
         >
-          <Button type="ghost">
-            <Text css={{ color: "$slate9", mb: "$3" }}>Buscar outros artistas</Text>
-            <Plus size="2rem" />
-          </Button>
+          {trackedArtists?.map(({ spotifyId }) => (
+            <ArtistCard key={spotifyId} id={spotifyId} />
+          ))}
         </Box>
-      </Box>
+      ) : (
+        <Box
+          css={{
+            h: "100%",
+            display: "flex",
+            flexDir: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "$3",
+          }}
+        >
+          <Text
+            color="neutral-medium"
+            css={{
+              mt: "$10",
+              mb: "$7",
+            }}
+          >
+            Parece que você não segue nenhum artista!
+          </Text>
+          <Button
+            css={{
+              display: "flex",
+              alignItems: "center",
+              gap: "$2",
+            }}
+            isLoading={isMutating}
+            onClick={handleImportTopArtists}
+          >
+            Importar meus artistas favoritos do Spotify
+            <FaSpotify />
+          </Button>
+          <Text color="neutral-medium">ou</Text>
+          <NextLink href="/pesquisar">
+            <Button
+              css={{
+                display: "flex",
+                alignItems: "center",
+                gap: "$2",
+                mb: "auto",
+              }}
+            >
+              Buscar artistas
+              <MagnifyingGlass size={18} weight="bold" />
+            </Button>
+          </NextLink>
+        </Box>
+      )}
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
-  const spotifyApi = createSpotifyApi(ctx);
-
-  const { data } = await spotifyApi.get("/me/top/artists", {
-    params: {
-      limit: 5,
-      time_range: "medium_term",
-    },
-  });
   return {
-    props: { topArtists: data.items },
+    props: {},
   };
 });
 
