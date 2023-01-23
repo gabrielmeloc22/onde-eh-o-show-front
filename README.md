@@ -8,8 +8,8 @@ seus artistas favoritos vão estar se apresentando no Brasil!
 
 ### TODO
 
-- [ ] Integração com o backend (Ainda em desenvolvimento)
-- [ ] Seleção de artistas e live-search com a Api do Spotify
+- [X] ~~Integração com o backend (Ainda em desenvolvimento)~~
+- [X] ~~Seleção de artistas e live-search com a Api do Spotify~~
 - [X] ~~Verificação em rotas que precisam de autenticação~~ 
 
 
@@ -24,3 +24,9 @@ seus artistas favoritos vão estar se apresentando no Brasil!
   SPOTIFY_REDIRECT_URI=`http://localhost:3000/api/auth/spotify/callback`<br/>
 
 - Inicie o projeto: `yarn dev` ✨
+
+## Acessar o projeto em produção
+ - Como os servidores são de baixo custo, há um cold start, ou seja, na primeira vez que o servidor backend for acessado, resultará em um timeout. Espere um pouco e tente novamente!
+ - E também como o Spotify limita o acesso a contas registradas no app, utilize as seguintes credencias:
+ > email: ondeehoshow@gmail.com<br/>
+ senha: ondeehoshow
