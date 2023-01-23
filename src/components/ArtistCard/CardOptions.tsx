@@ -2,7 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Bell, Heart } from "phosphor-react";
 import { useBreakpointValue } from "../../styles/hooks/useBreakpointValue";
 import { styled } from "../../styles/stitches.config";
-import { Button } from "../Primitives";
+import { Button as ButtonPrimitive } from "../Primitives";
+import { Button } from "../Button";
 import {
   Tooltip,
   TooltipContent,
@@ -24,7 +25,7 @@ const Wrapper = styled(motion.div, {
   zIndex: 1,
 });
 
-const TooltipTrigger = styled(OriginalTooltipTrigger, Button, {
+const TooltipTrigger = styled(OriginalTooltipTrigger, ButtonPrimitive, {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -46,8 +47,12 @@ interface CardOptions extends React.ComponentPropsWithRef<typeof Wrapper> {
 
 export function CardOptions({ hover, artistId, ...props }: CardOptions) {
   const isFavorite = useIsTrackedArtist(artistId);
-  const { mutateAsync: addTrackedArtist, isSuccess: hasAdded } = useAddTrackedArtistMutation();
-  const { mutateAsync: removeTrackedArtist, isSuccess: hasRemoved } = useRemoveTrackedArtistMutation();
+  const {
+    mutateAsync: addTrackedArtist,
+    isLoading: isAddingArtist,
+    error: addArtistError,
+  } = useAddTrackedArtistMutation();
+  const { mutateAsync: removeTrackedArtist } = useRemoveTrackedArtistMutation();
 
   const { user } = useAuth();
 
@@ -103,8 +108,11 @@ export function CardOptions({ hover, artistId, ...props }: CardOptions) {
         >
           <TooltipProvider delayDuration={500}>
             <Tooltip>
-              <TooltipTrigger onClick={handleTrackArtistMutation}>
-                <Heart size="1.25rem" weight={(isFavorite || hasAdded) && !hasRemoved ? "fill" : "regular"} />
+              <TooltipTrigger onClick={handleTrackArtistMutation} asChild>
+                <Heart
+                  size="1.25rem"
+                  weight={(isFavorite || isAddingArtist) && !addArtistError ? "fill" : "regular"}
+                />
               </TooltipTrigger>
               <TooltipContent side="left" sideOffset={5}>
                 Adicionar aos favoritos
