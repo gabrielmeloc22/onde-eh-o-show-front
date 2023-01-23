@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { ArrowRight, Bell } from "phosphor-react";
+import { ArrowRight, ArrowSquareOut, Bell } from "phosphor-react";
 import { styled } from "../../styles/stitches.config";
 import { Box, Button, Link, Text } from "../Primitives";
 import { ScrollingText } from "../ScrollingText";
@@ -54,6 +54,14 @@ export function EventsInfo({ artistId }: EventsInfoProps) {
     );
   }
   const { url, name, venue, date } = data;
+
+  // Price still not implemented in the API
+  const price = null;
+  const formattedPrice = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(120);
+
   return (
     <Skeleton customSkeleton={EventsInfoSkeleton} isLoaded={!isFetching}>
       <Box
@@ -69,35 +77,43 @@ export function EventsInfo({ artistId }: EventsInfoProps) {
           }}
         >
           <DetailText>Evento mais próximo</DetailText>
-          <ScrollingText color="primary" weight="bold" size="larger">
+          <ScrollingText maxCharacters={16} color="primary" weight="bold" size="larger">
             {name}
           </ScrollingText>
         </Box>
-        {/* To implement api feature */}
-        {/* <Box>
-        <DetailText>Menor preço</DetailText>
-        <Text
-          as="a"
-          css={{
-            display: "flex",
-            alignItems: "center",
-            gap: "$2",
-            w: "fit-content",
-            color: "$slate12",
-            textDecoration: "none",
-          }}
-          href="#"
-        >
-          {new Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          }).format(price)}
-          <ArrowSquareOut />
-        </Text>
-      </Box> */}
         <Box>
+          <DetailText>Menor preço</DetailText>
+          <Text
+            as="a"
+            css={{
+              display: "flex",
+              alignItems: "center",
+              gap: "$2",
+              w: "fit-content",
+              color: "$slate12",
+              textDecoration: "none",
+            }}
+            href="#"
+          >
+            {price !== null ? (
+              <>
+                {formattedPrice}
+                <ArrowSquareOut />
+              </>
+            ) : (
+              "Indisponível"
+            )}
+          </Text>
+        </Box>
+        <Box
+          css={{
+            overflow: "hidden",
+          }}
+        >
           <DetailText>Local</DetailText>
-          <Text>{venue?.address}</Text>
+          <ScrollingText maxCharacters={16} color="neutral-strong" weight="normal">
+            {venue?.name}
+          </ScrollingText>
         </Box>
         <Box>
           <DetailText>Data</DetailText>
@@ -116,19 +132,18 @@ export function EventsInfo({ artistId }: EventsInfoProps) {
             justifyContent: "space-between",
           }}
         >
-          <NextLink href="" passHref>
+          <Link href={url} target="_blank">
             <Button
-              as="a"
               aria-label="acessar página de ingressos"
-              href={"#"}
               css={{
                 textDecoration: "none",
               }}
             >
               Ingressos
             </Button>
-          </NextLink>
-          <NextLink href={url} passHref>
+          </Link>
+
+          <NextLink href={"#"} target="_blank" passHref>
             <Link
               aria-label="Ver mais eventos"
               color="neutral"
