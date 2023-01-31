@@ -11,9 +11,10 @@ seus artistas favoritos vão estar se apresentando no Brasil!
 - [X] ~~Integração com o backend (Ainda em desenvolvimento)~~
 - [X] ~~Seleção de artistas e live-search com a Api do Spotify~~
 - [X] ~~Verificação em rotas que precisam de autenticação~~ 
-- [ ] Implementar a feature de notificações (comunicando com o back-end)
-- [ ] Criar rotas dinamicas para cada artista
-- [ ] Criar página de perfil do usuário
+- [ ] Ativar notificações de novos eventos
+- [ ] Rotas dinamicas para cada artista
+- [ ] Página de perfil do usuário
+- [ ] Fluxo de criação de um evento (no qual o usuário cria um evento e ele é enviado para aprovação)
 
 
 ## 🛠️ Abrir e rodar o projeto
